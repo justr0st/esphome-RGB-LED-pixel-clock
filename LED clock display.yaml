@@ -248,7 +248,7 @@
         }
         return (y * 17) + (16 - x);
       rotation: 0°
-      update_interval: 100ms
+      update_interval: 50ms
       pages:
       - id: intro_page
         lambda: |-
@@ -274,7 +274,7 @@
 
           for(int i=0; i<digitsCount; i++) {
 
-            id(digit_animationStart)[i] = timeValue[i] == id(previousTimeValue)[i];
+            id(digit_animationStart)[i] = (timeValue[i] != id(previousTimeValue)[i]);
 
             if(id(digit_animationStart)[i]){
 
@@ -420,9 +420,6 @@
               }
             }         
           }
-          
-          it.draw_pixel_at(colon_location_X, 1, color);
-          it.draw_pixel_at(colon_location_X, 3, color);
 
           if (id(digit_animationFrame) > 2) {
             id(previousTimeValue)[0] = timeValue[0];
@@ -435,11 +432,13 @@
             id(digit_animationStart)[2] = false;
             id(digit_animationStart)[3] = false;
           }
-          else id(digit_animationFrame)++;            
-          
+          else id(digit_animationFrame)++;    
+
+          it.draw_pixel_at(colon_location_X, 1, color);
+          it.draw_pixel_at(colon_location_X, 3, color);        
+
+#--------------------------------------------------------------------------------------------------          
 #          it.strftime(0, 0, id(font_3x5), color,  "%H:%M", id(sntp_time).now());
-
-
 
 #          std::string str_displayTime = std::to_string(timeValue[0]) + std::to_string(timeValue[1]) + 
 #                                        ":" + std::to_string(timeValue[2]) + std::to_string(timeValue[3]);
