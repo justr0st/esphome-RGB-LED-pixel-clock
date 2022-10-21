@@ -1,14 +1,8 @@
   esphome:
     name: led-clock
     on_boot:
-      - display.page.show: intro_page
-#      - light.turn_on:
-#          id: led_matrix
-#          brightness: 50%
-#          red: 10%
-#          green: 90%
-#          blue: 90%
-#          effect: "Init"
+      then:
+        - display.page.show: splashscreen
   
   esp8266:
     board: d1_mini
@@ -39,7 +33,6 @@
   
   ota:
     password: !secret ota_password
-    
   
   time:
    # - platform: homeassistant
@@ -106,23 +99,27 @@
     - platform: template
       id: red_output
       type: float
+      min_power: 0.2
       write_action:
         lambda: |-
-          id(red_value) = 53.0 + 202.0 * state;
+          id(red_value) = 255.0 * state;
   
     - platform: template
       id: green_output
       type: float
+      min_power: 0.2
       write_action:
         - lambda: |-
-            id(green_value) = 53.0 + 202.0 * state;
+            id(green_value) = 255.0 * state;
   
     - platform: template
       id: blue_output
       type: float
+      min_power: 0.2
+      max_power: 0.95
       write_action:
         lambda: |-
-          id(blue_value) = 79.0 + 176.0 * state;
+          id(blue_value) = 255.0 * state;
 
   animation:
     - file: "animations/Kotik.gif"
@@ -211,9 +208,9 @@
     blue: 0%
 
   - id: color_white
-    red: 50%
-    green: 50%
-    blue: 50%
+    red: 30%
+    green: 30%
+    blue: 30%
 
 
   light:
@@ -248,13 +245,13 @@
         }
         return (y * 17) + (16 - x);
       rotation: 0°
-      update_interval: 50ms
+      update_interval: 20ms
       pages:
-      - id: intro_page
+      - id: splashscreen
         lambda: |-
           id(kotik_animation).next_frame();
           delay(100);
-          it.image(0, 0, id(kotik_animation), id(color_black), id(color_white));        
+          it.image(0, 0, id(kotik_animation), id(color_black), id(color_white));
       - id: clock_page
         lambda: |-
           Color color(id(red_value), id(green_value), id(blue_value));
@@ -278,11 +275,9 @@
 
             if(id(digit_animationStart)[i]){
 
-              delay(100);
-
               if(id(digit_animationFrame) == 0) id(digit_animationFrame) = 1;
 
-              if (id(digit_animationFrame) == 1) {
+              if (id(digit_animationFrame) > 0) {
                 switch(timeValue[i]) {
                   case 1:
                     it.image(digit_location_X[i], 0, id(number_01), id(color_black), color);
@@ -332,7 +327,7 @@
                     break;
                 }
               }
-              else {
+              else if (id(digit_animationFrame) > 4) {
                 switch(timeValue[i]) {
                   case 1:
                     it.image(digit_location_X[i], 0, id(number_10), id(color_black), color);
@@ -383,7 +378,7 @@
                 }
               }
 
-              if (id(digit_animationFrame) >= 2) id(digit_animationStart)[i] = false;
+              if (id(digit_animationFrame) > 8) id(digit_animationStart)[i] = false;
             }
             else {
               switch(timeValue[i]) {
@@ -421,7 +416,7 @@
             }         
           }
 
-          if (id(digit_animationFrame) > 2) {
+          if (id(digit_animationFrame) > 8) {
             id(previousTimeValue)[0] = timeValue[0];
             id(previousTimeValue)[1] = timeValue[1];
             id(previousTimeValue)[2] = timeValue[2];
