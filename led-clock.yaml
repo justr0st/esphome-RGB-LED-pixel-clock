@@ -3,6 +3,9 @@
     on_boot:
       then:
         - display.page.show: splashscreen
+        - light.turn_on: 
+            id: clock_rgb
+            brightness: 50%
   
   esp8266:
     board: d1_mini
@@ -225,10 +228,9 @@
     #--------- LED strip ----------------
     - platform: neopixelbus
       id: led_matrix
-      method: esp8266_uart
       name: "Led strip"
       internal: True
-      pin: GPIO2
+      pin: GPIO4
       num_leds: 85
       variant: WS2812
       type: GRB
@@ -430,17 +432,4 @@
           else id(digit_animationFrame)++;    
 
           it.draw_pixel_at(colon_location_X, 1, color);
-          it.draw_pixel_at(colon_location_X, 3, color);        
-
-#--------------------------------------------------------------------------------------------------          
-#          it.strftime(0, 0, id(font_3x5), color,  "%H:%M", id(sntp_time).now());
-
-#          std::string str_displayTime = std::to_string(timeValue[0]) + std::to_string(timeValue[1]) + 
-#                                        ":" + std::to_string(timeValue[2]) + std::to_string(timeValue[3]);
-#          char char_array_displayTime[str_displayTime.length() + 1]; 
-#          // copying the contents of the 
-#          // string to char array 
-#          strcpy(char_array_displayTime, str_displayTime.c_str()); 
-#
-#          it.print(0, 0, id(font_3x5), color, char_array_displayTime);
-          
+          it.draw_pixel_at(colon_location_X, 3, color);
