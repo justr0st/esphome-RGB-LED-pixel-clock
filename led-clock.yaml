@@ -194,15 +194,14 @@
       id: number_20
     - file: "animations/Numbers_anim/02.png"
       id: number_02
+    - file: "animations/Numbers_anim/30.png"
+      id: number_30
+    - file: "animations/Numbers_anim/03.png"
+      id: number_03
     - file: "animations/Numbers_anim/50.png"
       id: number_50
     - file: "animations/Numbers_anim/05.png"
       id: number_05
-
-  font:
-    - file: "fonts/Pixelzim-3x5-mod.ttf"
-      id: font_3x5
-      size: 10
   
   color:
   - id: color_black
