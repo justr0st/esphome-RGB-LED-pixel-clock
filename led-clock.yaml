@@ -312,6 +312,9 @@
                       case 2:
                         it.image(digit_location_X[i], 0, id(number_20), id(color_black), color);
                         break;
+                      case 3:
+                        it.image(digit_location_X[i], 0, id(number_30), id(color_black), color);
+                        break;
                       case 5:
                         it.image(digit_location_X[i], 0, id(number_50), id(color_black), color);
                         break;
@@ -361,6 +364,9 @@
                     switch(id(previousTimeValue)[i]) {
                       case 2:
                         it.image(digit_location_X[i], 0, id(number_02), id(color_black), color);
+                        break;
+                      case 3:
+                        it.image(digit_location_X[i], 0, id(number_03), id(color_black), color);
                         break;
                       case 5:
                         it.image(digit_location_X[i], 0, id(number_05), id(color_black), color);
