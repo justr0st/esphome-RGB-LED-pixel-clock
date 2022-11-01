@@ -2,6 +2,8 @@
 # Pixel clock for ESPhome
 
 Simple ESPHome pixel clock based on WS2812b lightstrip with 17x5 display.
+![front](https://github.com/justr0st/esphome-RGB-LED-pixel-clock/blob/main/Images/LED_Clock_front.jpg?raw=true)
+![side](https://github.com/justr0st/esphome-RGB-LED-pixel-clock/blob/main/Images/LED_clock_side.jpg?raw=true)
 
 ## Preparation
 Materials needed:
@@ -12,7 +14,8 @@ Materials needed:
 
 
   1. Print all three STL files. They could be printed completely using white plastic. Or change the material to black color after printing 1 mm of 'clock screen.STL' if you like it in such way, as i did it.
-  2. Cut the WS2812b LED strip into 5 strips with 17 LEDs each and solder everything according to wiring diagram. 
+  2. Cut the WS2812b LED strip into 5 strips with 17 LEDs each and solder everything according to wiring diagram:
+     ![wiring](https://github.com/justr0st/esphome-RGB-LED-pixel-clock/blob/main/Images/Wiring%20Sketch.svg?raw=true)
 
 ## Installation
 
