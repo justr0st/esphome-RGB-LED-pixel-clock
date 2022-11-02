@@ -16,14 +16,15 @@ Materials needed:
   1. Print all three STL files. They could be printed completely using white plastic. Or change the material to black color after printing 1 mm of 'clock screen.STL' if you like it in such way, as i did it.
   2. Cut the WS2812b LED strip into 5 strips with 17 LEDs each and solder everything according to wiring diagram:
      ![wiring](https://github.com/justr0st/esphome-RGB-LED-pixel-clock/blob/main/Images/Wiring%20Sketch.svg?raw=true)
-
+  3. Put the strips into the sockets into printed display and pull the wire through the hole in the middle frame. Connect the board, bend the wires and close the case.
+  
 ## Installation
 
 Already installed and running ESPHome is needed. For more info see [Getting started with ESPHome](https://esphome.io/guides/getting_started_hassio.html).
 
 Copy contents of ./esphome ('**led-clock.yaml**, '**secrets.yaml**' and '**animations**' directory) to ESPhome configurations location. 
 For example it could be:
-```bash
+```
 /usr/share/hassio/homeassistant/esphome
 ```
 Edit '**secrets.yaml**' by entering your **wifi_ssid**, **wifi_password**. **ota_password** is just a key that will be needed to be able to update the clock device wirelessly over the air afterwards.
@@ -36,6 +37,14 @@ If you prefer dynamic IP assigned by your router, you can just comment those lin
 #      subnet: 255.255.255.0
 ```
 
-## Todo
+After opening ESPHome user interface you will a new device called "led-clock" will be available:
+![image](https://user-images.githubusercontent.com/50486502/199477793-32966969-0e1a-44d9-b9d8-8dc3f1274d86.png)
 
-- finish readme
+After pressing "EDIT" button you will be able to see the yaml code.
+Connect the board to your PC using USB and install the firmware:
+
+**INSTALL > Plug into this computer**
+
+Wait untill firmware will be prepared and follow the on-screen instructions.
+
+Afterwards it will be able to update the firmware wirelessly via OTA.
