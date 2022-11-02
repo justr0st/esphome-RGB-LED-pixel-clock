@@ -23,7 +23,8 @@ Materials needed:
 Already installed and running ESPHome is needed. For more info see [Getting started with ESPHome](https://esphome.io/guides/getting_started_hassio.html).
 
 Copy contents of ./esphome ('**led-clock.yaml**, '**secrets.yaml**' and '**animations**' directory) to ESPhome configurations location. If you already have '**secrets.yaml**', then just edit it accordingly.
-For example it could be:
+
+Usually esphome path is:
 ```
 /usr/share/hassio/homeassistant/esphome
 ```
