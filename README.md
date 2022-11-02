@@ -1,9 +1,10 @@
 
 # Pixel clock for ESPhome
 
-Simple ESPHome pixel clock based on WS2812b lightstrip with 17x5 display.
+Simple ESPHome pixel clock based on WS2812b lightstrip with 17x5 display. [![YouTube](https://img.shields.io/badge/YOUTUBE-VIDEO-red)](https://youtube.com/shorts/Wsp6U6bym74)
 ![front](https://github.com/justr0st/esphome-RGB-LED-pixel-clock/blob/main/Images/LED_Clock_front.jpg?raw=true)
 ![side](https://github.com/justr0st/esphome-RGB-LED-pixel-clock/blob/main/Images/LED_clock_side.jpg?raw=true)
+
 
 ## Preparation
 Materials needed:
