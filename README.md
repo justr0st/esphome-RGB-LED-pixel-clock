@@ -10,6 +10,7 @@ Simple ESPHome pixel clock based on WS2812b lightstrip with 17x5 display. [![You
 Materials needed:
   * Wemos D1 Mini ([example](https://www.amazon.de/gp/product/B0754N794H/))
   * WS2812b LED strip IPx0 without protective coating (100 LEDs/m) ([example](https://www.amazon.de/gp/product/B088FJLRFP))
+  * 1x resistor from 220 Ω to 470 Ω
   * some wires and soldering iron
   * 6x M3x10 screws
 
