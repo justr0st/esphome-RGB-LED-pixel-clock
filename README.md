@@ -24,30 +24,41 @@ Materials needed:
 
 Already installed and running ESPHome is needed. For more info see [Getting started with ESPHome](https://esphome.io/guides/getting_started_hassio.html).
 
-Copy contents of ./esphome ('**led-clock.yaml**, '**secrets.yaml**' and '**animations**' directory) to ESPhome configurations location. If you already have '**secrets.yaml**', then just edit it accordingly.
+1. Copy contents of ./esphome ('**led-clock.yaml**, '**secrets.yaml**' and '**animations**' directory) to ESPhome configurations location. If you already have '**secrets.yaml**', then just edit it accordingly.
 
-Usually esphome path is:
-```
-/usr/share/hassio/homeassistant/esphome
-```
-Edit '**secrets.yaml**' by entering your **wifi_ssid**, **wifi_password**. **ota_password** is just a key that will be needed to be able to update the clock device wirelessly over the air afterwards.
+   Usually esphome path is:
+   ```
+   /usr/share/hassio/homeassistant/esphome
+   ```
+2. Edit '**secrets.yaml**' by entering your **wifi_ssid**, **wifi_password**, **ota_password** and **api_encryption_key**.
 
-Edit **manual_ip:** subsection of **wifi:** section in 'led-clock.yaml' and enter the IP configuration for your clock.
-If you prefer dynamic IP assigned by your router, you can just comment those lines out using '#' symbol:
-```yaml
-#      static_ip: 192.168.1.222
-#      gateway: 192.168.1.1
-#      subnet: 255.255.255.0
-```
+   **ota_password** is just a key that will be needed to be able to update the clock device wirelessly over the air afterwards.
+   
+   **api_encryption_key** Is a unique BASE64 key which can be generated [here](https://esphome.io/components/api.html#configuration-variables):
 
-After opening ESPHome user interface you will a new device called "led-clock" will be available:
-![image](https://user-images.githubusercontent.com/50486502/199477793-32966969-0e1a-44d9-b9d8-8dc3f1274d86.png)
+   ![image](https://github.com/justr0st/esphome-RGB-LED-pixel-clock/assets/50486502/ee38d482-6e09-46c0-9c05-290069fc702a)
 
-After pressing "EDIT" button you will be able to see the yaml code.
-Connect the board to your PC using USB and install the firmware:
 
-**INSTALL > Plug into this computer**
 
-Wait untill firmware will be prepared and follow the on-screen instructions.
+3. Edit **manual_ip:** subsection of **wifi:** section in 'led-clock.yaml' and enter the IP configuration for your clock.
 
-Afterwards it will be able to update the firmware wirelessly via OTA.
+   If you prefer dynamic IP assigned by your router, you can just comment those lines out using '#' symbol:
+   ```yaml
+   #      static_ip: 192.168.1.222
+   #      gateway: 192.168.1.1
+   #      subnet: 255.255.255.0
+   ```
+
+4. After opening ESPHome user interface you will a new device called "led-clock" will be available:
+
+   ![image](https://user-images.githubusercontent.com/50486502/199477793-32966969-0e1a-44d9-b9d8-8dc3f1274d86.png)
+
+   Press "EDIT" button you to see the yaml code.
+   
+6. Connect the board to your PC using USB and install the firmware:
+
+   **INSTALL > Plug into this computer**
+
+   Wait untill firmware will be prepared and follow the on-screen instructions.
+
+   Afterwards it will be possible to do future firmware updates wirelessly via OTA.
