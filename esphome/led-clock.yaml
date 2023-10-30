@@ -266,9 +266,11 @@
             time.minute / 10,
             time.minute % 10
           };
-
-          int digit_location_X[digitsCount] = {0, 4, 10, 14};
-          int colon_location_X = 8;
+          
+          const int digit_location_X[digitsCount] = {0, 4, 10, 14};
+          const int digit_location_Y[digitsCount] = {0, 0, 0, 0};
+          const bool enableColon = true;
+          const int colon_location_X = 8;
 
           for(int i=0; i<digitsCount; i++) {
 
@@ -281,106 +283,106 @@
               if (id(digit_animationFrame) > 0) {
                 switch(timeValue[i]) {
                   case 1:
-                    it.image(digit_location_X[i], 0, id(number_01), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_01), id(color_black), color);
                     break;
                   case 2:
-                    it.image(digit_location_X[i], 0, id(number_12), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_12), id(color_black), color);
                     break;
                   case 3:
-                    it.image(digit_location_X[i], 0, id(number_23), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_23), id(color_black), color);
                     break;
                   case 4:
-                    it.image(digit_location_X[i], 0, id(number_34), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_34), id(color_black), color);
                     break;
                   case 5:
-                    it.image(digit_location_X[i], 0, id(number_45), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_45), id(color_black), color);
                     break;
                   case 6:
-                    it.image(digit_location_X[i], 0, id(number_56), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_56), id(color_black), color);
                     break;
                   case 7:
-                    it.image(digit_location_X[i], 0, id(number_67), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_67), id(color_black), color);
                     break;
                   case 8:
-                    it.image(digit_location_X[i], 0, id(number_78), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_78), id(color_black), color);
                     break;
                   case 9:
-                    it.image(digit_location_X[i], 0, id(number_89), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_89), id(color_black), color);
                     break;
                   case 0:
                     switch(id(previousTimeValue)[i]) {
                       case 2:
-                        it.image(digit_location_X[i], 0, id(number_20), id(color_black), color);
+                        it.image(digit_location_X[i], digit_location_Y[i], id(number_20), id(color_black), color);
                         break;
                       case 3:
-                        it.image(digit_location_X[i], 0, id(number_30), id(color_black), color);
+                        it.image(digit_location_X[i], digit_location_Y[i], id(number_30), id(color_black), color);
                         break;
                       case 5:
-                        it.image(digit_location_X[i], 0, id(number_50), id(color_black), color);
+                        it.image(digit_location_X[i], digit_location_Y[i], id(number_50), id(color_black), color);
                         break;
                       case 9:
-                        it.image(digit_location_X[i], 0, id(number_90), id(color_black), color);
+                        it.image(digit_location_X[i], digit_location_Y[i], id(number_90), id(color_black), color);
                         break;
                       default:
-                        it.image(digit_location_X[i], 0, id(number_90), id(color_black), color);
+                        it.image(digit_location_X[i], digit_location_Y[i], id(number_90), id(color_black), color);
                         break;
                       }
                     break;        
                   default:
-                    it.image(digit_location_X[i], 0, id(number_88), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_88), id(color_black), color);
                     break;
                 }
               }
               else if (id(digit_animationFrame) > 4) {
                 switch(timeValue[i]) {
                   case 1:
-                    it.image(digit_location_X[i], 0, id(number_10), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_10), id(color_black), color);
                     break;
                   case 2:
-                    it.image(digit_location_X[i], 0, id(number_21), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_21), id(color_black), color);
                     break;
                   case 3:
-                    it.image(digit_location_X[i], 0, id(number_32), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_32), id(color_black), color);
                     break;
                   case 4:
-                    it.image(digit_location_X[i], 0, id(number_43), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_43), id(color_black), color);
                     break;
                   case 5:
-                    it.image(digit_location_X[i], 0, id(number_54), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_54), id(color_black), color);
                     break;
                   case 6:
-                    it.image(digit_location_X[i], 0, id(number_65), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_65), id(color_black), color);
                     break;
                   case 7:
-                    it.image(digit_location_X[i], 0, id(number_76), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_76), id(color_black), color);
                     break;
                   case 8:
-                    it.image(digit_location_X[i], 0, id(number_87), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_87), id(color_black), color);
                     break;
                   case 9:
-                    it.image(digit_location_X[i], 0, id(number_98), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_98), id(color_black), color);
                     break;
                   case 0:
                     switch(id(previousTimeValue)[i]) {
                       case 2:
-                        it.image(digit_location_X[i], 0, id(number_02), id(color_black), color);
+                        it.image(digit_location_X[i], digit_location_Y[i], id(number_02), id(color_black), color);
                         break;
                       case 3:
-                        it.image(digit_location_X[i], 0, id(number_03), id(color_black), color);
+                        it.image(digit_location_X[i], digit_location_Y[i], id(number_03), id(color_black), color);
                         break;
                       case 5:
-                        it.image(digit_location_X[i], 0, id(number_05), id(color_black), color);
+                        it.image(digit_location_X[i], digit_location_Y[i], id(number_05), id(color_black), color);
                         break;
                       case 9:
-                        it.image(digit_location_X[i], 0, id(number_09), id(color_black), color);
+                        it.image(digit_location_X[i], digit_location_Y[i], id(number_09), id(color_black), color);
                         break;
                       default:
-                        it.image(digit_location_X[i], 0, id(number_09), id(color_black), color);
+                        it.image(digit_location_X[i], digit_location_Y[i], id(number_09), id(color_black), color);
                         break;
                       }
                     break;        
                   default:
-                    it.image(digit_location_X[i], 0, id(number_88), id(color_black), color);
+                    it.image(digit_location_X[i], digit_location_Y[i], id(number_88), id(color_black), color);
                     break;
                 }
               }
@@ -390,34 +392,34 @@
             else {
               switch(timeValue[i]) {
                 case 1:
-                  it.image(digit_location_X[i], 0, id(number_11), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_11), id(color_black), color);
                   break;
                 case 2:
-                  it.image(digit_location_X[i], 0, id(number_22), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_22), id(color_black), color);
                   break;
                 case 3:
-                  it.image(digit_location_X[i], 0, id(number_33), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_33), id(color_black), color);
                   break;
                 case 4:
-                  it.image(digit_location_X[i], 0, id(number_44), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_44), id(color_black), color);
                   break;
                 case 5:
-                  it.image(digit_location_X[i], 0, id(number_55), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_55), id(color_black), color);
                   break;
                 case 6:
-                  it.image(digit_location_X[i], 0, id(number_66), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_66), id(color_black), color);
                   break;
                 case 7:
-                  it.image(digit_location_X[i], 0, id(number_77), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_77), id(color_black), color);
                   break;
                 case 8:
-                  it.image(digit_location_X[i], 0, id(number_88), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_88), id(color_black), color);
                   break;
                 case 9:
-                  it.image(digit_location_X[i], 0, id(number_99), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_99), id(color_black), color);
                   break;              
                 default:
-                  it.image(digit_location_X[i], 0, id(number_00), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_00), id(color_black), color);
                   break;
               }
             }         
@@ -434,7 +436,9 @@
             id(digit_animationStart)[2] = false;
             id(digit_animationStart)[3] = false;
           }
-          else id(digit_animationFrame)++;    
-
-          it.draw_pixel_at(colon_location_X, 1, color);
-          it.draw_pixel_at(colon_location_X, 3, color);
+          else id(digit_animationFrame)++;
+          
+          if (enableColon) {
+            it.draw_pixel_at(colon_location_X, 1, color);
+            it.draw_pixel_at(colon_location_X, 3, color);
+          }
