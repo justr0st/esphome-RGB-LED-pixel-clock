@@ -45,7 +45,9 @@
       id: sntp_time
       timezone: "Europe/Berlin"
       servers:
-        - 192.168.1.1
+        - 0.pool.ntp.org
+        - 1.pool.ntp.org
+        - 2.pool.ntp.org
       on_time_sync:
         then:
           - globals.set:
