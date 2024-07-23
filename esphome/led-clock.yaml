@@ -1,447 +1,452 @@
-  esphome:
-    name: led-clock
-    on_boot:
-      then:
-        - display.page.show: splashscreen
-        - light.turn_on: 
-            id: clock_rgb
-            brightness: 50%
+substitutions:
+  name: led-clock
+
+esphome:
+  name: ${name}
+  min_version: 2024.6.0
+  on_boot:
+    then:
+      - display.page.show: splashscreen
+      - light.turn_on: 
+          id: clock_rgb
+          brightness: 50%
+
+esp8266:
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
   
-  esp8266:
-    board: d1_mini
-  
-  wifi:
-    ssid: !secret wifi_ssid
-    password: !secret wifi_password
-    
-    manual_ip:
-      static_ip: 192.168.1.222
-      gateway: 192.168.1.1
-      subnet: 255.255.255.0
-  
-    # Enable fallback hotspot (captive portal) in case wifi connection fails
-    ap:
-      ssid: "LED clock Fallback"
-      password: "D4PvQAa5nZho"
-      channel: 4
-  
-  captive_portal:
-  
-  # Enable logging
-  logger:
-  
-  # Enable Home Assistant API
-  api:
-    encryption:
-      key: !secret api_encryption_key
-  
-  ota:
+  manual_ip:
+    static_ip: 192.168.1.222
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "&{name} Fallback"
     password: !secret ota_password
+    channel: 4
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+ota:
+  platform: esphome
+  password: !secret ota_password
+
+time:
+ # - platform: homeassistant
+ #   id: homeassistant_time
+  - platform: sntp
+    id: sntp_time
+    timezone: "Europe/Berlin"
+    servers:
+      - 0.pool.ntp.org
+      - 1.pool.ntp.org
+      - 2.pool.ntp.org
+    on_time_sync:
+      then:
+        - globals.set:
+            id: tyme_synced
+            value: 'true'
+        - if:
+            condition:
+              lambda: 'return id(tyme_synced);'
+            then:
+              - lambda: |-
+                  auto time = id(sntp_time).now();
+                  id(previousTimeValue)[0] = time.hour / 10;
+                  id(previousTimeValue)[1] = time.hour % 10;
+                  id(previousTimeValue)[2] = time.minute / 10;
+                  id(previousTimeValue)[3] = time.minute % 10;
+              - display.page.show: clock_page
+
+globals:
+  - id: red_value
+    type: int
+    restore_value: yes
+    initial_value: '50'
+
+  - id: green_value
+    type: int
+    restore_value: yes
+    initial_value: '50'
+
+  - id: blue_value
+    type: int
+    restore_value: yes
+    initial_value: '50'
   
-  time:
-   # - platform: homeassistant
-   #   id: homeassistant_time
-    - platform: sntp
-      id: sntp_time
-      timezone: "Europe/Berlin"
-      servers:
-        - 0.pool.ntp.org
-        - 1.pool.ntp.org
-        - 2.pool.ntp.org
-      on_time_sync:
-        then:
-          - globals.set:
-              id: tyme_synced
-              value: 'true'
-          - if:
-              condition:
-                lambda: 'return id(tyme_synced);'
-              then:
-                - lambda: |-
-                    auto time = id(sntp_time).now();
-                    id(previousTimeValue)[0] = time.hour / 10;
-                    id(previousTimeValue)[1] = time.hour % 10;
-                    id(previousTimeValue)[2] = time.minute / 10;
-                    id(previousTimeValue)[3] = time.minute % 10;
-                - display.page.show: clock_page
+  - id: tyme_synced
+    type: bool      
+    restore_value: no
+    initial_value: 'false'
 
-  globals:
-    - id: red_value
-      type: int
-      restore_value: yes
-      initial_value: '50'
+  - id: digit_animationStart
+    type: bool[4]
+    restore_value: no
+    initial_value: '{false, false, false, false}'
+
+  - id: previousTimeValue
+    type: int[4]
+    restore_value: no
+    initial_value: '{0, 0, 0, 0}'
   
-    - id: green_value
-      type: int
-      restore_value: yes
-      initial_value: '50'
-  
-    - id: blue_value
-      type: int
-      restore_value: yes
-      initial_value: '50'
-    
-    - id: tyme_synced
-      type: bool      
-      restore_value: no
-      initial_value: 'false'
+  - id: digit_animationFrame
+    type: int
+    restore_value: no
+    initial_value: '0'
 
-    - id: digit_animationStart
-      type: bool[4]
-      restore_value: no
-      initial_value: '{false, false, false, false}'
+output:
+  - platform: template
+    id: red_output
+    type: float
+    min_power: 0.2
+    write_action:
+      lambda: |-
+        id(red_value) = 255.0 * state;
 
-    - id: previousTimeValue
-      type: int[4]
-      restore_value: no
-      initial_value: '{0, 0, 0, 0}'
-    
-    - id: digit_animationFrame
-      type: int
-      restore_value: no
-      initial_value: '0'
-  
-  output:
-    - platform: template
-      id: red_output
-      type: float
-      min_power: 0.2
-      write_action:
-        lambda: |-
-          id(red_value) = 255.0 * state;
-  
-    - platform: template
-      id: green_output
-      type: float
-      min_power: 0.2
-      write_action:
-        - lambda: |-
-            id(green_value) = 255.0 * state;
-  
-    - platform: template
-      id: blue_output
-      type: float
-      min_power: 0.2
-      max_power: 0.95
-      write_action:
-        lambda: |-
-          id(blue_value) = 255.0 * state;
+  - platform: template
+    id: green_output
+    type: float
+    min_power: 0.2
+    write_action:
+      - lambda: |-
+          id(green_value) = 255.0 * state;
 
-  animation:
-    - file: "animations/Kotik.gif"
-      id: kotik_animation
-      type: RGB24
+  - platform: template
+    id: blue_output
+    type: float
+    min_power: 0.2
+    max_power: 0.95
+    write_action:
+      lambda: |-
+        id(blue_value) = 255.0 * state;
 
-  image:
-    - file: "animations/Numbers_anim/00.png"
-      id: number_00
-    - file: "animations/Numbers_anim/01.png"
-      id: number_01
-    - file: "animations/Numbers_anim/10.png"
-      id: number_10
-    - file: "animations/Numbers_anim/11.png"
-      id: number_11
-    - file: "animations/Numbers_anim/12.png"
-      id: number_12
-    - file: "animations/Numbers_anim/21.png"
-      id: number_21
-    - file: "animations/Numbers_anim/22.png"
-      id: number_22
-    - file: "animations/Numbers_anim/23.png"
-      id: number_23
-    - file: "animations/Numbers_anim/32.png"
-      id: number_32
-    - file: "animations/Numbers_anim/33.png"
-      id: number_33
-    - file: "animations/Numbers_anim/34.png"
-      id: number_34
-    - file: "animations/Numbers_anim/43.png"
-      id: number_43
-    - file: "animations/Numbers_anim/44.png"
-      id: number_44
-    - file: "animations/Numbers_anim/45.png"
-      id: number_45
-    - file: "animations/Numbers_anim/54.png"
-      id: number_54
-    - file: "animations/Numbers_anim/55.png"
-      id: number_55
-    - file: "animations/Numbers_anim/56.png"
-      id: number_56
-    - file: "animations/Numbers_anim/65.png"
-      id: number_65
-    - file: "animations/Numbers_anim/66.png"
-      id: number_66
-    - file: "animations/Numbers_anim/67.png"
-      id: number_67
-    - file: "animations/Numbers_anim/76.png"
-      id: number_76
-    - file: "animations/Numbers_anim/77.png"
-      id: number_77
-    - file: "animations/Numbers_anim/78.png"
-      id: number_78
-    - file: "animations/Numbers_anim/87.png"
-      id: number_87
-    - file: "animations/Numbers_anim/88.png"
-      id: number_88
-    - file: "animations/Numbers_anim/89.png"
-      id: number_89
-    - file: "animations/Numbers_anim/98.png"
-      id: number_98
-    - file: "animations/Numbers_anim/99.png"
-      id: number_99
-    - file: "animations/Numbers_anim/90.png"
-      id: number_90
-    - file: "animations/Numbers_anim/09.png"
-      id: number_09
-    - file: "animations/Numbers_anim/20.png"
-      id: number_20
-    - file: "animations/Numbers_anim/02.png"
-      id: number_02
-    - file: "animations/Numbers_anim/30.png"
-      id: number_30
-    - file: "animations/Numbers_anim/03.png"
-      id: number_03
-    - file: "animations/Numbers_anim/50.png"
-      id: number_50
-    - file: "animations/Numbers_anim/05.png"
-      id: number_05
-  
-  color:
-  - id: color_black
-    red: 0%
-    green: 0%
-    blue: 0%
+animation:
+  - file: "animations/Kotik.gif"
+    id: kotik_animation
+    type: RGB24
 
-  - id: color_white
-    red: 30%
-    green: 30%
-    blue: 30%
+image:
+  - file: "animations/Numbers_anim/00.png"
+    id: number_00
+  - file: "animations/Numbers_anim/01.png"
+    id: number_01
+  - file: "animations/Numbers_anim/10.png"
+    id: number_10
+  - file: "animations/Numbers_anim/11.png"
+    id: number_11
+  - file: "animations/Numbers_anim/12.png"
+    id: number_12
+  - file: "animations/Numbers_anim/21.png"
+    id: number_21
+  - file: "animations/Numbers_anim/22.png"
+    id: number_22
+  - file: "animations/Numbers_anim/23.png"
+    id: number_23
+  - file: "animations/Numbers_anim/32.png"
+    id: number_32
+  - file: "animations/Numbers_anim/33.png"
+    id: number_33
+  - file: "animations/Numbers_anim/34.png"
+    id: number_34
+  - file: "animations/Numbers_anim/43.png"
+    id: number_43
+  - file: "animations/Numbers_anim/44.png"
+    id: number_44
+  - file: "animations/Numbers_anim/45.png"
+    id: number_45
+  - file: "animations/Numbers_anim/54.png"
+    id: number_54
+  - file: "animations/Numbers_anim/55.png"
+    id: number_55
+  - file: "animations/Numbers_anim/56.png"
+    id: number_56
+  - file: "animations/Numbers_anim/65.png"
+    id: number_65
+  - file: "animations/Numbers_anim/66.png"
+    id: number_66
+  - file: "animations/Numbers_anim/67.png"
+    id: number_67
+  - file: "animations/Numbers_anim/76.png"
+    id: number_76
+  - file: "animations/Numbers_anim/77.png"
+    id: number_77
+  - file: "animations/Numbers_anim/78.png"
+    id: number_78
+  - file: "animations/Numbers_anim/87.png"
+    id: number_87
+  - file: "animations/Numbers_anim/88.png"
+    id: number_88
+  - file: "animations/Numbers_anim/89.png"
+    id: number_89
+  - file: "animations/Numbers_anim/98.png"
+    id: number_98
+  - file: "animations/Numbers_anim/99.png"
+    id: number_99
+  - file: "animations/Numbers_anim/90.png"
+    id: number_90
+  - file: "animations/Numbers_anim/09.png"
+    id: number_09
+  - file: "animations/Numbers_anim/20.png"
+    id: number_20
+  - file: "animations/Numbers_anim/02.png"
+    id: number_02
+  - file: "animations/Numbers_anim/30.png"
+    id: number_30
+  - file: "animations/Numbers_anim/03.png"
+    id: number_03
+  - file: "animations/Numbers_anim/50.png"
+    id: number_50
+  - file: "animations/Numbers_anim/05.png"
+    id: number_05
+
+color:
+- id: color_black
+  red: 0%
+  green: 0%
+  blue: 0%
+
+- id: color_white
+  red: 30%
+  green: 30%
+  blue: 30%
 
 
-  light:
-    - platform: rgb
-      name: "LED clock RGB"
-      id: 'clock_rgb'
-      gamma_correct: 1.8
-      red: red_output
-      green: green_output
-      blue: blue_output
-  
-    #--------- LED strip ----------------
-    - platform: neopixelbus
-      id: led_matrix
-      name: "Led strip"
-      internal: True
-      pin: GPIO4
-      num_leds: 85
-      variant: WS2812
-      type: GRB
-  
-  display:
-    - platform: addressable_light
-      id: led_matrix_display
-      addressable_light_id: led_matrix
-      width: 17
-      height: 5
-      pixel_mapper: |-
-        if (y % 2 == 0) {
-          return (y * 17) + x;
-        }
-        return (y * 17) + (16 - x);
-      rotation: 0°
-      update_interval: 20ms
-      pages:
-      - id: splashscreen
-        lambda: |-
-          id(kotik_animation).next_frame();
-          delay(100);
-          it.image(0, 0, id(kotik_animation), id(color_black), id(color_white));
-      - id: clock_page
-        lambda: |-
-          Color color(id(red_value), id(green_value), id(blue_value));
+light:
+  - platform: rgb
+    name: "LED clock RGB"
+    id: 'clock_rgb'
+    gamma_correct: 1.8
+    red: red_output
+    green: green_output
+    blue: blue_output
 
-          const int digitsCount = 4;            
-          auto time = id(sntp_time).now();
+  #--------- LED strip ----------------
+  - platform: neopixelbus
+    id: led_matrix
+    name: "Led strip"
+    internal: True
+    pin: GPIO4
+    num_leds: 85
+    variant: WS2812
+    type: GRB
 
-          int timeValue[digitsCount] = {
-            time.hour / 10,
-            time.hour % 10,
-            time.minute / 10,
-            time.minute % 10
-          };
-          
-          const int digit_location_X[digitsCount] = {0, 4, 10, 14};
-          const int digit_location_Y[digitsCount] = {0, 0, 0, 0};
-          const bool enableColon = true;
-          const int colon_location_X = 8;
+display:
+  - platform: addressable_light
+    id: led_matrix_display
+    addressable_light_id: led_matrix
+    width: 17
+    height: 5
+    pixel_mapper: |-
+      if (y % 2 == 0) {
+        return (y * 17) + x;
+      }
+      return (y * 17) + (16 - x);
+    rotation: 0°
+    update_interval: 20ms
+    pages:
+    - id: splashscreen
+      lambda: |-
+        id(kotik_animation).next_frame();
+        delay(100);
+        it.image(0, 0, id(kotik_animation), id(color_black), id(color_white));
+    - id: clock_page
+      lambda: |-
+        Color color(id(red_value), id(green_value), id(blue_value));
 
-          for(int i=0; i<digitsCount; i++) {
+        const int digitsCount = 4;            
+        auto time = id(sntp_time).now();
 
-            id(digit_animationStart)[i] = (timeValue[i] != id(previousTimeValue)[i]);
+        int timeValue[digitsCount] = {
+          time.hour / 10,
+          time.hour % 10,
+          time.minute / 10,
+          time.minute % 10
+        };
+        
+        const int digit_location_X[digitsCount] = {0, 4, 10, 14};
+        const int digit_location_Y[digitsCount] = {0, 0, 0, 0};
+        const bool enableColon = true;
+        const int colon_location_X = 8;
 
-            if(id(digit_animationStart)[i]){
+        for(int i=0; i<digitsCount; i++) {
 
-              if(id(digit_animationFrame) == 0) id(digit_animationFrame) = 1;
+          id(digit_animationStart)[i] = (timeValue[i] != id(previousTimeValue)[i]);
 
-              if (id(digit_animationFrame) > 0) {
-                switch(timeValue[i]) {
-                  case 1:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_01), id(color_black), color);
-                    break;
-                  case 2:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_12), id(color_black), color);
-                    break;
-                  case 3:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_23), id(color_black), color);
-                    break;
-                  case 4:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_34), id(color_black), color);
-                    break;
-                  case 5:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_45), id(color_black), color);
-                    break;
-                  case 6:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_56), id(color_black), color);
-                    break;
-                  case 7:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_67), id(color_black), color);
-                    break;
-                  case 8:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_78), id(color_black), color);
-                    break;
-                  case 9:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_89), id(color_black), color);
-                    break;
-                  case 0:
-                    switch(id(previousTimeValue)[i]) {
-                      case 2:
-                        it.image(digit_location_X[i], digit_location_Y[i], id(number_20), id(color_black), color);
-                        break;
-                      case 3:
-                        it.image(digit_location_X[i], digit_location_Y[i], id(number_30), id(color_black), color);
-                        break;
-                      case 5:
-                        it.image(digit_location_X[i], digit_location_Y[i], id(number_50), id(color_black), color);
-                        break;
-                      case 9:
-                        it.image(digit_location_X[i], digit_location_Y[i], id(number_90), id(color_black), color);
-                        break;
-                      default:
-                        it.image(digit_location_X[i], digit_location_Y[i], id(number_90), id(color_black), color);
-                        break;
-                      }
-                    break;        
-                  default:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_88), id(color_black), color);
-                    break;
-                }
-              }
-              else if (id(digit_animationFrame) > 4) {
-                switch(timeValue[i]) {
-                  case 1:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_10), id(color_black), color);
-                    break;
-                  case 2:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_21), id(color_black), color);
-                    break;
-                  case 3:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_32), id(color_black), color);
-                    break;
-                  case 4:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_43), id(color_black), color);
-                    break;
-                  case 5:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_54), id(color_black), color);
-                    break;
-                  case 6:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_65), id(color_black), color);
-                    break;
-                  case 7:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_76), id(color_black), color);
-                    break;
-                  case 8:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_87), id(color_black), color);
-                    break;
-                  case 9:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_98), id(color_black), color);
-                    break;
-                  case 0:
-                    switch(id(previousTimeValue)[i]) {
-                      case 2:
-                        it.image(digit_location_X[i], digit_location_Y[i], id(number_02), id(color_black), color);
-                        break;
-                      case 3:
-                        it.image(digit_location_X[i], digit_location_Y[i], id(number_03), id(color_black), color);
-                        break;
-                      case 5:
-                        it.image(digit_location_X[i], digit_location_Y[i], id(number_05), id(color_black), color);
-                        break;
-                      case 9:
-                        it.image(digit_location_X[i], digit_location_Y[i], id(number_09), id(color_black), color);
-                        break;
-                      default:
-                        it.image(digit_location_X[i], digit_location_Y[i], id(number_09), id(color_black), color);
-                        break;
-                      }
-                    break;        
-                  default:
-                    it.image(digit_location_X[i], digit_location_Y[i], id(number_88), id(color_black), color);
-                    break;
-                }
-              }
+          if(id(digit_animationStart)[i]){
 
-              if (id(digit_animationFrame) > 8) id(digit_animationStart)[i] = false;
-            }
-            else {
+            if(id(digit_animationFrame) == 0) id(digit_animationFrame) = 1;
+
+            if (id(digit_animationFrame) > 0) {
               switch(timeValue[i]) {
                 case 1:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_11), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_01), id(color_black), color);
                   break;
                 case 2:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_22), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_12), id(color_black), color);
                   break;
                 case 3:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_33), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_23), id(color_black), color);
                   break;
                 case 4:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_44), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_34), id(color_black), color);
                   break;
                 case 5:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_55), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_45), id(color_black), color);
                   break;
                 case 6:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_66), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_56), id(color_black), color);
                   break;
                 case 7:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_77), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_67), id(color_black), color);
                   break;
                 case 8:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_88), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_78), id(color_black), color);
                   break;
                 case 9:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_99), id(color_black), color);
-                  break;              
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_89), id(color_black), color);
+                  break;
+                case 0:
+                  switch(id(previousTimeValue)[i]) {
+                    case 2:
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_20), id(color_black), color);
+                      break;
+                    case 3:
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_30), id(color_black), color);
+                      break;
+                    case 5:
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_50), id(color_black), color);
+                      break;
+                    case 9:
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_90), id(color_black), color);
+                      break;
+                    default:
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_90), id(color_black), color);
+                      break;
+                    }
+                  break;        
                 default:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_00), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_88), id(color_black), color);
                   break;
               }
-            }         
-          }
+            }
+            else if (id(digit_animationFrame) > 4) {
+              switch(timeValue[i]) {
+                case 1:
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_10), id(color_black), color);
+                  break;
+                case 2:
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_21), id(color_black), color);
+                  break;
+                case 3:
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_32), id(color_black), color);
+                  break;
+                case 4:
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_43), id(color_black), color);
+                  break;
+                case 5:
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_54), id(color_black), color);
+                  break;
+                case 6:
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_65), id(color_black), color);
+                  break;
+                case 7:
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_76), id(color_black), color);
+                  break;
+                case 8:
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_87), id(color_black), color);
+                  break;
+                case 9:
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_98), id(color_black), color);
+                  break;
+                case 0:
+                  switch(id(previousTimeValue)[i]) {
+                    case 2:
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_02), id(color_black), color);
+                      break;
+                    case 3:
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_03), id(color_black), color);
+                      break;
+                    case 5:
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_05), id(color_black), color);
+                      break;
+                    case 9:
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_09), id(color_black), color);
+                      break;
+                    default:
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_09), id(color_black), color);
+                      break;
+                    }
+                  break;        
+                default:
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_88), id(color_black), color);
+                  break;
+              }
+            }
 
-          if (id(digit_animationFrame) > 8) {
-            id(previousTimeValue)[0] = timeValue[0];
-            id(previousTimeValue)[1] = timeValue[1];
-            id(previousTimeValue)[2] = timeValue[2];
-            id(previousTimeValue)[3] = timeValue[3];
-            id(digit_animationFrame) = 0;
-            id(digit_animationStart)[0] = false;
-            id(digit_animationStart)[1] = false;
-            id(digit_animationStart)[2] = false;
-            id(digit_animationStart)[3] = false;
+            if (id(digit_animationFrame) > 8) id(digit_animationStart)[i] = false;
           }
-          else id(digit_animationFrame)++;
-          
-          if (enableColon) {
-            it.draw_pixel_at(colon_location_X, 1, color);
-            it.draw_pixel_at(colon_location_X, 3, color);
-          }
+          else {
+            switch(timeValue[i]) {
+              case 1:
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_11), id(color_black), color);
+                break;
+              case 2:
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_22), id(color_black), color);
+                break;
+              case 3:
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_33), id(color_black), color);
+                break;
+              case 4:
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_44), id(color_black), color);
+                break;
+              case 5:
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_55), id(color_black), color);
+                break;
+              case 6:
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_66), id(color_black), color);
+                break;
+              case 7:
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_77), id(color_black), color);
+                break;
+              case 8:
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_88), id(color_black), color);
+                break;
+              case 9:
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_99), id(color_black), color);
+                break;              
+              default:
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_00), id(color_black), color);
+                break;
+            }
+          }         
+        }
+
+        if (id(digit_animationFrame) > 8) {
+          id(previousTimeValue)[0] = timeValue[0];
+          id(previousTimeValue)[1] = timeValue[1];
+          id(previousTimeValue)[2] = timeValue[2];
+          id(previousTimeValue)[3] = timeValue[3];
+          id(digit_animationFrame) = 0;
+          id(digit_animationStart)[0] = false;
+          id(digit_animationStart)[1] = false;
+          id(digit_animationStart)[2] = false;
+          id(digit_animationStart)[3] = false;
+        }
+        else id(digit_animationFrame)++;
+        
+        if (enableColon) {
+          it.draw_pixel_at(colon_location_X, 1, color);
+          it.draw_pixel_at(colon_location_X, 3, color);
+        }
