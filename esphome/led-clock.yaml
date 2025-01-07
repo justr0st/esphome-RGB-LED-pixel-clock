@@ -56,11 +56,11 @@ time:
     on_time_sync:
       then:
         - globals.set:
-            id: tyme_synced
+            id: time_synced
             value: 'true'
         - if:
             condition:
-              lambda: 'return id(tyme_synced);'
+              lambda: 'return id(time_synced);'
             then:
               - lambda: |-
                   auto time = id(sntp_time).now();
@@ -86,7 +86,7 @@ globals:
     restore_value: yes
     initial_value: '50'
   
-  - id: tyme_synced
+  - id: time_synced
     type: bool      
     restore_value: no
     initial_value: 'false'
