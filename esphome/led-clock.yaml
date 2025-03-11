@@ -3,7 +3,7 @@ substitutions:
 
 esphome:
   name: ${name}
-  min_version: 2024.6.0
+  min_version: 2025.2.1
   on_boot:
     then:
       - display.page.show: splashscreen
