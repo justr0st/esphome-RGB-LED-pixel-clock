@@ -135,81 +135,82 @@ output:
 animation:
   - file: "animations/Kotik.gif"
     id: kotik_animation
-    type: RGB24
+    type: RGB
 
 image:
-  - file: "animations/Numbers_anim/00.png"
-    id: number_00
-  - file: "animations/Numbers_anim/01.png"
-    id: number_01
-  - file: "animations/Numbers_anim/10.png"
-    id: number_10
-  - file: "animations/Numbers_anim/11.png"
-    id: number_11
-  - file: "animations/Numbers_anim/12.png"
-    id: number_12
-  - file: "animations/Numbers_anim/21.png"
-    id: number_21
-  - file: "animations/Numbers_anim/22.png"
-    id: number_22
-  - file: "animations/Numbers_anim/23.png"
-    id: number_23
-  - file: "animations/Numbers_anim/32.png"
-    id: number_32
-  - file: "animations/Numbers_anim/33.png"
-    id: number_33
-  - file: "animations/Numbers_anim/34.png"
-    id: number_34
-  - file: "animations/Numbers_anim/43.png"
-    id: number_43
-  - file: "animations/Numbers_anim/44.png"
-    id: number_44
-  - file: "animations/Numbers_anim/45.png"
-    id: number_45
-  - file: "animations/Numbers_anim/54.png"
-    id: number_54
-  - file: "animations/Numbers_anim/55.png"
-    id: number_55
-  - file: "animations/Numbers_anim/56.png"
-    id: number_56
-  - file: "animations/Numbers_anim/65.png"
-    id: number_65
-  - file: "animations/Numbers_anim/66.png"
-    id: number_66
-  - file: "animations/Numbers_anim/67.png"
-    id: number_67
-  - file: "animations/Numbers_anim/76.png"
-    id: number_76
-  - file: "animations/Numbers_anim/77.png"
-    id: number_77
-  - file: "animations/Numbers_anim/78.png"
-    id: number_78
-  - file: "animations/Numbers_anim/87.png"
-    id: number_87
-  - file: "animations/Numbers_anim/88.png"
-    id: number_88
-  - file: "animations/Numbers_anim/89.png"
-    id: number_89
-  - file: "animations/Numbers_anim/98.png"
-    id: number_98
-  - file: "animations/Numbers_anim/99.png"
-    id: number_99
-  - file: "animations/Numbers_anim/90.png"
-    id: number_90
-  - file: "animations/Numbers_anim/09.png"
-    id: number_09
-  - file: "animations/Numbers_anim/20.png"
-    id: number_20
-  - file: "animations/Numbers_anim/02.png"
-    id: number_02
-  - file: "animations/Numbers_anim/30.png"
-    id: number_30
-  - file: "animations/Numbers_anim/03.png"
-    id: number_03
-  - file: "animations/Numbers_anim/50.png"
-    id: number_50
-  - file: "animations/Numbers_anim/05.png"
-    id: number_05
+  binary:
+    - file: "animations/Numbers_anim/00.png"
+      id: number_00
+    - file: "animations/Numbers_anim/01.png"
+      id: number_01
+    - file: "animations/Numbers_anim/10.png"
+      id: number_10
+    - file: "animations/Numbers_anim/11.png"
+      id: number_11
+    - file: "animations/Numbers_anim/12.png"
+      id: number_12
+    - file: "animations/Numbers_anim/21.png"
+      id: number_21
+    - file: "animations/Numbers_anim/22.png"
+      id: number_22
+    - file: "animations/Numbers_anim/23.png"
+      id: number_23
+    - file: "animations/Numbers_anim/32.png"
+      id: number_32
+    - file: "animations/Numbers_anim/33.png"
+      id: number_33
+    - file: "animations/Numbers_anim/34.png"
+      id: number_34
+    - file: "animations/Numbers_anim/43.png"
+      id: number_43
+    - file: "animations/Numbers_anim/44.png"
+      id: number_44
+    - file: "animations/Numbers_anim/45.png"
+      id: number_45
+    - file: "animations/Numbers_anim/54.png"
+      id: number_54
+    - file: "animations/Numbers_anim/55.png"
+      id: number_55
+    - file: "animations/Numbers_anim/56.png"
+      id: number_56
+    - file: "animations/Numbers_anim/65.png"
+      id: number_65
+    - file: "animations/Numbers_anim/66.png"
+      id: number_66
+    - file: "animations/Numbers_anim/67.png"
+      id: number_67
+    - file: "animations/Numbers_anim/76.png"
+      id: number_76
+    - file: "animations/Numbers_anim/77.png"
+      id: number_77
+    - file: "animations/Numbers_anim/78.png"
+      id: number_78
+    - file: "animations/Numbers_anim/87.png"
+      id: number_87
+    - file: "animations/Numbers_anim/88.png"
+      id: number_88
+    - file: "animations/Numbers_anim/89.png"
+      id: number_89
+    - file: "animations/Numbers_anim/98.png"
+      id: number_98
+    - file: "animations/Numbers_anim/99.png"
+      id: number_99
+    - file: "animations/Numbers_anim/90.png"
+      id: number_90
+    - file: "animations/Numbers_anim/09.png"
+      id: number_09
+    - file: "animations/Numbers_anim/20.png"
+      id: number_20
+    - file: "animations/Numbers_anim/02.png"
+      id: number_02
+    - file: "animations/Numbers_anim/30.png"
+      id: number_30
+    - file: "animations/Numbers_anim/03.png"
+      id: number_03
+    - file: "animations/Numbers_anim/50.png"
+      id: number_50
+    - file: "animations/Numbers_anim/05.png"
+      id: number_05
 
 color:
 - id: color_black
@@ -291,106 +292,106 @@ display:
             if (id(digit_animationFrame) > 0) {
               switch(timeValue[i]) {
                 case 1:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_01), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_01), color, id(color_black));
                   break;
                 case 2:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_12), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_12), color, id(color_black));
                   break;
                 case 3:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_23), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_23), color, id(color_black));
                   break;
                 case 4:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_34), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_34), color, id(color_black));
                   break;
                 case 5:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_45), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_45), color, id(color_black));
                   break;
                 case 6:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_56), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_56), color, id(color_black));
                   break;
                 case 7:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_67), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_67), color, id(color_black));
                   break;
                 case 8:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_78), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_78), color, id(color_black));
                   break;
                 case 9:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_89), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_89), color, id(color_black));
                   break;
                 case 0:
                   switch(id(previousTimeValue)[i]) {
                     case 2:
-                      it.image(digit_location_X[i], digit_location_Y[i], id(number_20), id(color_black), color);
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_20), color, id(color_black));
                       break;
                     case 3:
-                      it.image(digit_location_X[i], digit_location_Y[i], id(number_30), id(color_black), color);
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_30), color, id(color_black));
                       break;
                     case 5:
-                      it.image(digit_location_X[i], digit_location_Y[i], id(number_50), id(color_black), color);
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_50), color, id(color_black));
                       break;
                     case 9:
-                      it.image(digit_location_X[i], digit_location_Y[i], id(number_90), id(color_black), color);
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_90), color, id(color_black));
                       break;
                     default:
-                      it.image(digit_location_X[i], digit_location_Y[i], id(number_90), id(color_black), color);
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_90), color, id(color_black));
                       break;
                     }
                   break;        
                 default:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_88), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_88), color, id(color_black));
                   break;
               }
             }
             else if (id(digit_animationFrame) > 4) {
               switch(timeValue[i]) {
                 case 1:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_10), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_10), color, id(color_black));
                   break;
                 case 2:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_21), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_21), color, id(color_black));
                   break;
                 case 3:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_32), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_32), color, id(color_black));
                   break;
                 case 4:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_43), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_43), color, id(color_black));
                   break;
                 case 5:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_54), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_54), color, id(color_black));
                   break;
                 case 6:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_65), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_65), color, id(color_black));
                   break;
                 case 7:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_76), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_76), color, id(color_black));
                   break;
                 case 8:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_87), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_87), color, id(color_black));
                   break;
                 case 9:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_98), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_98), color, id(color_black));
                   break;
                 case 0:
                   switch(id(previousTimeValue)[i]) {
                     case 2:
-                      it.image(digit_location_X[i], digit_location_Y[i], id(number_02), id(color_black), color);
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_02), color, id(color_black));
                       break;
                     case 3:
-                      it.image(digit_location_X[i], digit_location_Y[i], id(number_03), id(color_black), color);
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_03), color, id(color_black));
                       break;
                     case 5:
-                      it.image(digit_location_X[i], digit_location_Y[i], id(number_05), id(color_black), color);
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_05), color, id(color_black));
                       break;
                     case 9:
-                      it.image(digit_location_X[i], digit_location_Y[i], id(number_09), id(color_black), color);
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_09), color, id(color_black));
                       break;
                     default:
-                      it.image(digit_location_X[i], digit_location_Y[i], id(number_09), id(color_black), color);
+                      it.image(digit_location_X[i], digit_location_Y[i], id(number_09), color, id(color_black));
                       break;
                     }
                   break;        
                 default:
-                  it.image(digit_location_X[i], digit_location_Y[i], id(number_88), id(color_black), color);
+                  it.image(digit_location_X[i], digit_location_Y[i], id(number_88), color, id(color_black));
                   break;
               }
             }
@@ -400,34 +401,34 @@ display:
           else {
             switch(timeValue[i]) {
               case 1:
-                it.image(digit_location_X[i], digit_location_Y[i], id(number_11), id(color_black), color);
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_11), color, id(color_black));
                 break;
               case 2:
-                it.image(digit_location_X[i], digit_location_Y[i], id(number_22), id(color_black), color);
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_22), color, id(color_black));
                 break;
               case 3:
-                it.image(digit_location_X[i], digit_location_Y[i], id(number_33), id(color_black), color);
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_33), color, id(color_black));
                 break;
               case 4:
-                it.image(digit_location_X[i], digit_location_Y[i], id(number_44), id(color_black), color);
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_44), color, id(color_black));
                 break;
               case 5:
-                it.image(digit_location_X[i], digit_location_Y[i], id(number_55), id(color_black), color);
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_55), color, id(color_black));
                 break;
               case 6:
-                it.image(digit_location_X[i], digit_location_Y[i], id(number_66), id(color_black), color);
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_66), color, id(color_black));
                 break;
               case 7:
-                it.image(digit_location_X[i], digit_location_Y[i], id(number_77), id(color_black), color);
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_77), color, id(color_black));
                 break;
               case 8:
-                it.image(digit_location_X[i], digit_location_Y[i], id(number_88), id(color_black), color);
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_88), color, id(color_black));
                 break;
               case 9:
-                it.image(digit_location_X[i], digit_location_Y[i], id(number_99), id(color_black), color);
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_99), color, id(color_black));
                 break;              
               default:
-                it.image(digit_location_X[i], digit_location_Y[i], id(number_00), id(color_black), color);
+                it.image(digit_location_X[i], digit_location_Y[i], id(number_00), color, id(color_black));
                 break;
             }
           }         
@@ -444,8 +445,8 @@ display:
           id(digit_animationStart)[2] = false;
           id(digit_animationStart)[3] = false;
         }
-        else id(digit_animationFrame)++;
-        
+        else id(digit_animationFrame)++; 
+            
         if (enableColon) {
           it.draw_pixel_at(colon_location_X, 1, color);
           it.draw_pixel_at(colon_location_X, 3, color);
